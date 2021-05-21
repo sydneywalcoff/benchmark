@@ -1,21 +1,22 @@
 const Benchmark = require('benchmark');
-const { linearSearch, binarySearch } = require('./search');
+const { bubbleSort, quickSort } = require('./sort');
 
 const numbers = [];
-for (let i = 1; i <= 1000000; i++) {
-    // populate the array with the numbers 1 to 1,000,000
-    numbers.push(i);
+for (let i=0; i <= 5000; i++) {
+    numbers.push(i)
 }
-
-const target = numbers[numbers.length -1];
 
 const suite = new Benchmark.Suite;
 
 suite
-    .add('linear search', function() {
-        linearSearch(numbers, target);
+    .add('bubble sort', function() {
+        const testArr = [...numbers];
+        bubbleSort(testArr);
+    })
+    .add('quick sort', function() {
+        const testArr = [...numbers];
     })
     .on('complete', function() {
-        console.log(`${this[0].name} averaged ${this[0].stats.mean*1000} milliseconds.`);
+        this.forEach(result => console.log(`${result.name} averaged ${result.stats.mean*1000} milliseconds`));
     })
     .run();
